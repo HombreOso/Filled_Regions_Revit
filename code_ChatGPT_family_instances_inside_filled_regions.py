@@ -22,14 +22,11 @@ def MapFamilyInstancesToFilledRegions(doc):
         # Loop through all the boundaries of the filled region
         for boundary in boundaries:
             # Check if any family instances intersect the boundary
-            # filter = ElementIntersectsSolidFilter(boundary.GetCurve().CreateTransformed(Transform.Identity))
-            # instances = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_GenericModel).OfClass(FamilyInstance).WherePasses(filter).ToElements()
-            # Get all family instances in the document
-            collector = FilteredElementCollector(doc)
-            elements = collector.OfClass(FamilyInstance).ToElements()
+            filter = ElementIntersectsSolidFilter(boundary.GetCurve().CreateTransformed(Transform.Identity))
+            instances = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_GenericModel).OfClass(FamilyInstance).WherePasses(filter).ToElements()
 
             # Add the family instances to the dictionary
-            for instance in elements:
+            for instance in instances:
                 if instance not in family_instance_to_region:
                     family_instance_to_region[instance] = region
 
