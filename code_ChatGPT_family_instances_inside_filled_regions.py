@@ -3,13 +3,29 @@ clr.AddReference("RevitAPI")
 from Autodesk.Revit.DB import *
 import sys
 
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+# Import RevitAPI
+import Autodesk
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+
 def MapFamilyInstancesToFilledRegions(doc):
     # Get the built-in category for filled regions
     filled_regions_category = BuiltInCategory.OST_FilledRegion
 
     # Get all the filled regions in the document
-    filled_regions = FilteredElementCollector(doc).OfCategory(filled_regions_category).WhereElementIsNotElementType().ToElements()
-
+    filled_regions = FilteredElementCollector(doc).OfClass(FilledRegion).WhereElementIsNotElementType().ToElements()
     # Create a dictionary to map family instances to filled regions
     family_instance_to_region = {}
 
@@ -17,7 +33,7 @@ def MapFamilyInstancesToFilledRegions(doc):
     for region in filled_regions:
         # Get the boundaries of the filled region
         options = SpatialElementBoundaryOptions()
-        boundaries = region.GetBoundaries(options)
+        boundaries = region.GetBoundaries()
 
         # Loop through all the boundaries of the filled region
         for boundary in boundaries:
