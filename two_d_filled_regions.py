@@ -17,8 +17,8 @@ from RevitServices.Transactions import TransactionManager
 import Autodesk
 
 doc = DocumentManager.Instance.CurrentDBDocument
-uiapp = DocumentManager.Instance.CurrentUIApplication
-app = uiapp.Application
+# uiapp = DocumentManager.Instance.CurrentUIApplication
+# app = uiapp.Application
 
 doc = __revit__.ActiveUIDocument.Document
 
