@@ -35,6 +35,6 @@ def point_in_polygon(point, polygon):
 
 
 
-point = (x, y)
-polygon = [(x1, y1), (x2, y2), ..., (xn, yn)]
-result = point_in_polygon(point, polygon)
+# point = (x, y)
+# polygon = [(x1, y1), (x2, y2), ..., (xn, yn)]
+# result = point_in_polygon(point, polygon)
