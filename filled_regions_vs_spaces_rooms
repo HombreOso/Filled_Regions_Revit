@@ -77,7 +77,7 @@ filled_regions = FilteredElementCollector(doc).OfClass(FilledRegion).WhereElemen
 all_spaces_and_rooms = FilteredElementCollector(doc).OfClass(SpatialElement).WhereElementIsNotElementType().ToElements()
 
 # Dictionary to store the room and spaces ids covered by each filled region
-family_instances_inside_filled_region = {}
+spaces_rooms_inside_filled_region = {}
 
 
 print(all_spaces_and_rooms)
@@ -88,7 +88,21 @@ for filled_region in filled_regions:
 			
 	# Get the vertices of the boundary curves and convert them into a polygon
     vertices = [(list(boundary_curve_loop.GetCurveLoopIterator())[i].GetEndPoint(0).X, list(boundary_curve_loop.GetCurveLoopIterator())[i].GetEndPoint(0).Y) for i in range(boundary_curve_loop.NumberOfCurves())]
+
+    for space_room in all_spaces_and_rooms:
+        boundary_options = SpatialElementBoundaryOptions()
+        boundary_segments = space_room.GetBoundarySegments(boundary_options)
+        vertices_coordinates = []
+        if boundary_segments:
+            for boundary_segm_list in boundary_segments:
+                for boundary_segm in boundary_segm_list:
+                    start_point_room = boundary_segm.GetCurve().GetEndPoint(0)
+                    end_point_room = boundary_segm.GetCurve().GetEndPoint(1)
+                    vertices_coordinates.append((start_point_room, end_point_room))
     
+        # print(vertices_coordinates)
+        
+
 
 
 
